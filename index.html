@@ -138,6 +138,63 @@
       </div>
     </div>
   </section>
+
+  <section class="container" id="skills">
+    <style>
+      #skills .skills__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem 1.5rem;
+        align-items: start;
+      }
+      #skills .skills__list li {
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+      }
+      #skills .skills__list strong {
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      @media (max-width: 800px) {
+        #skills .skills__list { grid-template-columns: 1fr; }
+      }
+    </style>
+    <div class="win skills-window">
+      <div class="win__titlebar">
+        <span class="win__titlebar-icon"></span>
+        <span class="win__title">Skills</span>
+        <span class="win__controls">
+          <span class="win__control">_</span>
+          <span class="win__control">▢</span>
+          <span class="win__control">×</span>
+        </span>
+      </div>
+      <div class="win__body" style="display:block;">
+        <ul class="skills__list">
+          <li>
+            <strong>CAD / Design:</strong>
+            SolidWorks (CSWA Certified), Autodesk Fusion 360, BrickLink Studio
+          </li>
+          <li>
+            <strong>Hardware and Fabrication:</strong>
+            3D Printing, Soldering, Woodworking, Welding, Laser Cutting, Lathes &amp; Mills, Sewing
+          </li>
+          <li>
+            <strong>Programming:</strong>
+            Python, MATLAB, Arduino
+          </li>
+          <li>
+            <strong>Office Communication:</strong>
+            Microsoft Office, Smarteam, LibreOffice, Jira, Adobe Acrobat
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
   
   <section class="trifold container">
     <h2>Featured Work</h2>
