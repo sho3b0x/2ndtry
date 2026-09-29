@@ -76,7 +76,30 @@
     </div>
   </section>
 
-<section class="container" id="coursework">
+  <section class="container" id="coursework">
+    <style>
+      #coursework .coursework__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem 1.5rem;
+        align-items: start;
+      }
+      #coursework .coursework__list li {
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+      }
+      #coursework .coursework__list strong {
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      @media (max-width: 800px) {
+        #coursework .coursework__list { grid-template-columns: 1fr; }
+      }
+    </style>
     <div class="win coursework-window">
       <div class="win__titlebar">
         <span class="win__titlebar-icon"></span>
@@ -88,13 +111,31 @@
         </span>
       </div>
       <div class="win__body" style="display:block;">
-        <ul style="list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.75rem 1.5rem;">
-          <li><strong>MCEN 3030</strong> — Computational Methods</li>
-          <li><strong>Component Design</strong> — Mechanical design and analysis</li>
-          <li><strong>Intro to CAD</strong> — SolidWorks modeling and drafting</li>
-          <li><strong>Course Name</strong> — Short description</li>
-          <li><strong>Course Name</strong> — Short description</li>
-          <li><strong>Course Name</strong> — Short description</li>
+        <ul class="coursework__list">
+          <li>
+            <strong>MCEN 3030 - Computational Methods:</strong>
+            Numerical methods and MATLAB programming for solving engineering problems.
+          </li>
+          <li>
+            <strong>MCEN XXXX - Component Design:</strong>
+            Brief one or two sentence description of the course.
+          </li>
+          <li>
+            <strong>MCEN XXXX - Intro to CAD:</strong>
+            Brief one or two sentence description of the course.
+          </li>
+          <li>
+            <strong>MCEN XXXX - Course Name:</strong>
+            Brief one or two sentence description of the course.
+          </li>
+          <li>
+            <strong>MCEN XXXX - Course Name:</strong>
+            Brief one or two sentence description of the course.
+          </li>
+          <li>
+            <strong>MCEN XXXX - Course Name:</strong>
+            Brief one or two sentence description of the course.
+          </li>
         </ul>
       </div>
     </div>
