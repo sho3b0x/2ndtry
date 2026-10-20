@@ -102,7 +102,15 @@ li + li{ margin-top: .35em; }
   align-items: center;
   gap: 1rem;
 }
-
+.taskbar__inner{
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: .55rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* add this line */
+  gap: 1rem;
+}
 .taskbar__brand{
   flex: 0 0 auto;
   display: inline-flex;
