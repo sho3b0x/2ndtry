@@ -3,35 +3,112 @@
    Theme: retro desktop-OS "windows" (inspired by classic
    Windows XP-era chrome — gradient title bars, beveled
    buttons, sky wallpaper) applied to a modern layout.
+
+   PALETTE: "Supernova"
+   black #111111 · golden yellow #FFC700 · pale yellow #FFDE69 · white
+
+   Every color in this file comes from a variable in the
+   :root block below, so a palette change is a one-block edit.
+
+   Optional dark windows: add data-theme="dark" to <html>
+   (e.g. from a dark-mode toggle). Remove it to go back.
    ========================================================= */
 
 :root{
-  /* -- palette -- */
-  --sky-top:    #1E6FD9;
-  --sky-mid:    #5EA3EC;
-  --sky-bottom: #CFE8FB;
+  color-scheme: light;
 
-  --chrome-1:   #4E8FEE;   /* titlebar gradient top */
-  --chrome-2:   #0E3E8F;   /* titlebar gradient bottom */
-  --chrome-line:#0B3573;   /* window border */
+  /* -- sky wallpaper (body background): black with golden glow -- */
+  --sky-top:    #0A0A0A;
+  --sky-mid:    #111111;
+  --sky-bottom: #1C1A0E;
+  --cloud-1:    rgba(255,199,0,.34);
+  --cloud-2:    rgba(255,222,105,.20);
+  --cloud-3:    rgba(255,199,0,.16);
 
-  --panel:      #F5F7FB;   /* window body background */
-  --panel-alt:  #E9EEF7;   /* subtle inset panels */
+  /* -- window chrome: title bars, taskbar, default buttons -- */
+  --chrome-1:    #2E2E2E;   /* gradient top */
+  --chrome-2:    #111111;   /* gradient bottom */
+  --chrome-line: #000000;   /* window border */
+  --on-chrome:      #FFFFFF;
+  --on-chrome-soft: #F3F3F3; /* nav link text */
 
-  --ink:        #12203A;
-  --ink-muted:  #4E5C74;
-  --ink-soft:   #7182A0;
+  /* -- text that sits directly on the sky -- */
+  --on-sky:      #FFFFFF;
+  --on-sky-soft: rgba(255,255,255,.9);
 
-  --accent-green:      #3EA34E;
-  --accent-green-dark: #2C7C39;
-  --accent-gold:       #F2B705;
+  /* -- window surfaces -- */
+  --panel:      #FFFFFF;   /* window body */
+  --panel-alt:  #FFF6D1;   /* inset panels, ghost buttons, pills */
+  --line:       #E3CB73;   /* stronger borders */
+  --line-soft:  #F0E2A6;   /* subtle borders */
+  --frame:      #FFFFFF;   /* photo frame */
+  --bevel-light: #FFFFFF;  /* top-edge highlight on light surfaces */
 
+  /* -- ink -- */
+  --ink:        #111111;
+  --ink-muted:  #4A4A44;
+  --ink-soft:   #7A7A70;
+
+  /* -- primary accent (brand tab, accent button, kickers) -- */
+  --accent:       #FFC700;
+  --accent-dark:  #E0AA00;
+  --accent-edge:  #8A6A00;
+  --accent-text:  #7A5C00;  /* accent used as text on --panel */
+  --on-accent:    #111111;
+
+  /* -- highlight (active nav tab, focus ring, selection) -- */
+  --highlight:       #FFDE69;
+  --highlight-light: #FFEBA0;
+  --highlight-edge:  #B38B00;
+  --on-highlight:    #111111;
+
+  /* -- shadows (r,g,b triplet so alpha can vary per use) -- */
+  --shadow-rgb: 0, 0, 0;
+
+  /* -- derived tints (follow the palette automatically) -- */
+  --ok-bg:       color-mix(in srgb, var(--accent) 12%, var(--panel));
+  --ok-border:   color-mix(in srgb, var(--accent) 35%, var(--panel));
+  --note-bg:     color-mix(in srgb, var(--highlight) 22%, var(--panel));
+  --note-border: var(--highlight);
+  --note-ink:    color-mix(in srgb, var(--highlight-edge) 70%, var(--ink));
+
+  /* -- shape / layout -- */
   --radius-win: 8px;
-  --shadow-win: 0 14px 30px rgba(9,32,66,.22), 0 3px 8px rgba(9,32,66,.16);
+  --shadow-win: 0 14px 30px rgba(var(--shadow-rgb), .22), 0 3px 8px rgba(var(--shadow-rgb), .16);
 
   --content-w: 1080px;
   --font: Tahoma, "Segoe UI", Verdana, Arial, sans-serif;
+
+  /* -- legacy names (in case any HTML still uses them) -- */
+  --accent-green:      var(--accent);
+  --accent-green-dark: var(--accent-dark);
+  --accent-gold:       var(--highlight);
 }
+
+/* Dark windows — same Supernova chrome and accents, black panels */
+:root[data-theme="dark"]{
+  color-scheme: dark;
+
+  --chrome-line: #4A4220;
+
+  --panel:      #161616;
+  --panel-alt:  #1F1D14;
+  --line:       #3A3420;
+  --line-soft:  #2A2618;
+  --frame:      #3A3420;
+  --bevel-light: rgba(255,255,255,.08);
+
+  --ink:        #F5F4EE;
+  --ink-muted:  #BDBBAD;
+  --ink-soft:   #8A8878;
+
+  --accent-text: #FFC700;
+  --note-ink:    #F0DC8A;
+}
+
+/* =========================================================
+   Base
+   ========================================================= */
 
 *, *::before, *::after{ box-sizing: border-box; }
 
@@ -44,12 +121,14 @@ body{
   color: var(--ink);
   line-height: 1.6;
   background:
-    radial-gradient(ellipse 60% 30% at 15% 8%,  rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(ellipse 45% 22% at 82% 18%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(ellipse 50% 24% at 60% 4%,  rgba(255,255,255,.5)  0%, rgba(255,255,255,0) 60%),
+    radial-gradient(ellipse 60% 30% at 15% 8%,  var(--cloud-1) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 22% at 82% 18%, var(--cloud-2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 24% at 60% 4%,  var(--cloud-3) 0%, transparent 60%),
     linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 38%, var(--sky-bottom) 100%);
   background-attachment: fixed;
 }
+
+::selection{ background: var(--highlight); color: var(--on-highlight); }
 
 img{ max-width: 100%; display: block; }
 
@@ -77,7 +156,7 @@ li + li{ margin-top: .35em; }
 }
 
 :focus-visible{
-  outline: 3px solid var(--accent-gold);
+  outline: 3px solid var(--highlight-edge);
   outline-offset: 2px;
 }
 
@@ -91,7 +170,7 @@ li + li{ margin-top: .35em; }
   z-index: 100;
   background: linear-gradient(180deg, var(--chrome-1) 0%, var(--chrome-2) 100%);
   border-bottom: 1px solid var(--chrome-line);
-  box-shadow: 0 3px 10px rgba(8,26,58,.35);
+  box-shadow: 0 3px 10px rgba(var(--shadow-rgb), .35);
 }
 
 .taskbar__inner{
@@ -100,17 +179,10 @@ li + li{ margin-top: .35em; }
   padding: .55rem 1.25rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
-.taskbar__inner{
-  max-width: var(--content-w);
-  margin: 0 auto;
-  padding: .55rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* add this line */
-  gap: 1rem;
-}
+
 .taskbar__brand{
   flex: 0 0 auto;
   display: inline-flex;
@@ -118,14 +190,14 @@ li + li{ margin-top: .35em; }
   gap: .5rem;
   padding: .4rem .75rem;
   border-radius: 4px;
-  background: linear-gradient(180deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
-  border: 1px solid #1F5A28;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border: 1px solid var(--accent-edge);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.45), inset 0 -2px 4px rgba(0,0,0,.2);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 700;
   font-size: .95rem;
   text-decoration: none;
-  text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
   white-space: nowrap;
 }
 .taskbar__brand:hover{ filter: brightness(1.06); }
@@ -149,9 +221,9 @@ li + li{ margin-top: .35em; }
   white-space: nowrap;
   padding: .45rem .65rem;
   border-radius: 4px;
-  border: 1px solid rgba(8,26,58,.4);
+  border: 1px solid rgba(var(--shadow-rgb), .4);
   background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 60%);
-  color: #EAF1FF;
+  color: var(--on-chrome-soft);
   font-size: .82rem;
   font-weight: 600;
   text-decoration: none;
@@ -162,9 +234,9 @@ li + li{ margin-top: .35em; }
   background: linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.05) 60%);
 }
 .taskbar__link[aria-current="page"]{
-  background: linear-gradient(180deg, #FFE184 0%, var(--accent-gold) 100%);
-  border-color: #B4880A;
-  color: #3A2C00;
+  background: linear-gradient(180deg, var(--highlight-light) 0%, var(--highlight) 100%);
+  border-color: var(--highlight-edge);
+  color: var(--on-highlight);
   text-shadow: none;
 }
 
@@ -181,7 +253,7 @@ li + li{ margin-top: .35em; }
   border: 1px solid var(--chrome-line);
   background: linear-gradient(180deg, var(--chrome-1) 0%, var(--chrome-2) 100%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.2);
-  color: #fff;
+  color: var(--on-chrome);
   font-family: var(--font);
   font-weight: 700;
   font-size: .92rem;
@@ -194,15 +266,17 @@ li + li{ margin-top: .35em; }
 .btn:active{ box-shadow: inset 0 2px 6px rgba(0,0,0,.35); }
 
 .btn--accent{
-  background: linear-gradient(180deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
-  border-color: #1F5A28;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-color: var(--accent-edge);
+  color: var(--on-accent);
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
 }
 
 .btn--ghost{
   background: var(--panel-alt);
   color: var(--ink);
-  border-color: #B9C4D6;
-  box-shadow: inset 0 1px 0 #fff, inset 0 -2px 4px rgba(9,32,66,.08);
+  border-color: var(--line);
+  box-shadow: inset 0 1px 0 var(--bevel-light), inset 0 -2px 4px rgba(var(--shadow-rgb), .08);
   text-shadow: none;
 }
 
@@ -224,7 +298,7 @@ li + li{ margin-top: .35em; }
   gap: .55rem;
   padding: .55rem .9rem;
   background: linear-gradient(180deg, var(--chrome-1) 0%, var(--chrome-2) 100%);
-  color: #fff;
+  color: var(--on-chrome);
   border: 0;
   width: 100%;
   text-align: left;
@@ -259,7 +333,7 @@ button.win__titlebar{ cursor: pointer; }
   display: flex; align-items: center; justify-content: center;
   font-size: 9px;
   line-height: 1;
-  color: #fff;
+  color: var(--on-chrome);
 }
 
 .win__body{
@@ -272,14 +346,14 @@ button.win__titlebar{ cursor: pointer; }
 
 .page-hero{
   padding: 2.75rem 0 1.5rem;
-  color: #fff;
+  color: var(--on-sky);
 }
 .page-hero h1{
-  color: #fff;
-  text-shadow: 0 2px 6px rgba(6,20,46,.4);
+  color: var(--on-sky);
+  text-shadow: 0 2px 6px rgba(var(--shadow-rgb), .4);
 }
 .page-hero p{
-  color: rgba(255,255,255,.9);
+  color: var(--on-sky-soft);
   max-width: 62ch;
 }
 
@@ -292,14 +366,14 @@ main{ display: block; padding-bottom: 3.5rem; }
 .hero{
   padding: 3rem 0 2rem;
   text-align: left;
-  color: #fff;
+  color: var(--on-sky);
 }
 .hero__eyebrow{
   display: inline-block;
   font-size: .85rem;
   font-weight: 700;
-  color: #EAF1FF;
-  background: rgba(8,26,58,.3);
+  color: var(--on-chrome-soft);
+  background: rgba(var(--shadow-rgb), .3);
   border: 1px solid rgba(255,255,255,.35);
   border-radius: 4px;
   padding: .25rem .6rem;
@@ -307,13 +381,13 @@ main{ display: block; padding-bottom: 3.5rem; }
 }
 .hero h1{
   font-size: 2.5rem;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(6,20,46,.45);
+  color: var(--on-sky);
+  text-shadow: 0 2px 8px rgba(var(--shadow-rgb), .45);
   margin-bottom: .3rem;
 }
 .hero p{
   font-size: 1.05rem;
-  color: rgba(255,255,255,.92);
+  color: var(--on-sky-soft);
   max-width: 60ch;
 }
 
@@ -332,8 +406,8 @@ main{ display: block; padding-bottom: 3.5rem; }
 .about__photo{
   width: 100%;
   border-radius: 5px;
-  border: 4px solid #fff;
-  box-shadow: 0 6px 16px rgba(9,32,66,.25);
+  border: 4px solid var(--frame);
+  box-shadow: 0 6px 16px rgba(var(--shadow-rgb), .25);
 }
 .about__content :is(h2,h3){ color: var(--ink); }
 
@@ -350,8 +424,8 @@ main{ display: block; padding-bottom: 3.5rem; }
 
 .trifold{ padding: 2.5rem 0 3rem; }
 .trifold > h2{
-  color: #fff;
-  text-shadow: 0 2px 6px rgba(6,20,46,.4);
+  color: var(--on-sky);
+  text-shadow: 0 2px 6px rgba(var(--shadow-rgb), .4);
 }
 .trifold__grid{
   display: grid;
@@ -366,7 +440,7 @@ main{ display: block; padding-bottom: 3.5rem; }
 .trifold__card .win{ transition: transform .15s ease, box-shadow .15s ease; }
 .trifold__card:hover .win{
   transform: translateY(-3px);
-  box-shadow: 0 20px 36px rgba(9,32,66,.3), 0 4px 10px rgba(9,32,66,.2);
+  box-shadow: 0 20px 36px rgba(var(--shadow-rgb), .3), 0 4px 10px rgba(var(--shadow-rgb), .2);
 }
 
 .trifold__media{
@@ -385,7 +459,7 @@ main{ display: block; padding-bottom: 3.5rem; }
 .trifold__kicker{
   font-size: .78rem;
   font-weight: 700;
-  color: var(--accent-green-dark);
+  color: var(--accent-text);
   margin-bottom: .3rem;
 }
 .trifold__title{ font-weight: 700; color: var(--ink); margin-bottom: .3rem; }
@@ -414,13 +488,13 @@ main{ display: block; padding-bottom: 3.5rem; }
   padding: .3rem .6rem;
   border-radius: 3px;
   background: var(--panel-alt);
-  border: 1px solid #C4D0E2;
+  border: 1px solid var(--line-soft);
   color: var(--ink-muted);
 }
 .project__pill--status{
-  background: #E4F5E7;
-  border-color: #A9DAB2;
-  color: var(--accent-green-dark);
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+  color: var(--accent-text);
 }
 
 .project__layout{
@@ -437,8 +511,8 @@ main{ display: block; padding-bottom: 3.5rem; }
 
 .project__media img{
   border-radius: 5px;
-  border: 1px solid #C4D0E2;
-  box-shadow: 0 6px 14px rgba(9,32,66,.15);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 6px 14px rgba(var(--shadow-rgb), .15);
   margin-bottom: .75rem;
 }
 .project__media img:last-child{ margin-bottom: 0; }
@@ -479,7 +553,7 @@ main{ display: block; padding-bottom: 3.5rem; }
 .accordion-icon::after{
   content: "";
   position: absolute;
-  background: #fff;
+  background: var(--on-chrome);
   border-radius: 1px;
 }
 .accordion-icon::before{ left: 50%; top: 1px; bottom: 1px; width: 2px; transform: translateX(-50%); }
@@ -497,7 +571,7 @@ main{ display: block; padding-bottom: 3.5rem; }
 .accordion-meta{
   font-size: .85rem;
   font-weight: 700;
-  color: var(--accent-green-dark);
+  color: var(--accent-text);
   margin-bottom: .75rem;
 }
 
@@ -549,9 +623,9 @@ footer.site-footer{
   text-align: center;
 }
 footer.site-footer p{
-  color: rgba(255,255,255,.85);
+  color: var(--on-sky-soft);
   font-size: .85rem;
-  text-shadow: 0 1px 2px rgba(6,20,46,.4);
+  text-shadow: 0 1px 2px rgba(var(--shadow-rgb), .4);
 }
 
 /* customization notice block used inside placeholder content */
@@ -559,9 +633,9 @@ footer.site-footer p{
   display: block;
   margin-top: .5rem;
   padding: .6rem .8rem;
-  background: #FFF7DD;
-  border: 1px dashed #D9B94A;
+  background: var(--note-bg);
+  border: 1px dashed var(--note-border);
   border-radius: 4px;
-  color: #6B5A16;
+  color: var(--note-ink);
   font-size: .85rem;
 }
